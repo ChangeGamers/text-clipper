@@ -1,5 +1,5 @@
 {
-  "name": "text-clipper",
+  "name": "@minga/text-clipper",
   "version": "1.2.2",
   "description": "Fast and correct clip functions for HTML and plain text.",
   "main": "dist/index.js",
