@@ -10,6 +10,9 @@
     "test": "tape -r babel-register tests/unit/*.js | faucet"
   },
   "author": "Speakap B.V.",
+  "contributors": [
+    "Ezekiel Warren"
+  ],
   "keywords": [
     "clip",
     "html",
