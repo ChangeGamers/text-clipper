@@ -75,7 +75,7 @@ module.exports = function clip(string, maxLength, options = {}) {
 
 function clipHtml(string, maxLength, options) {
 
-    const { imageWeight = 2, maxLines } = options;
+    const { imageWeight = 2, newlineWeight = 1, maxLines } = options;
 
     let numChars = 1;
     let numLines = 1;
@@ -194,11 +194,14 @@ function clipHtml(string, maxLength, options) {
                                 // when truncating
                                 if (!isUnbreakableContent) {
                                     numLines++;
+                                    numChars += newlineWeight - 1;
                                     if (numLines > maxLines) {
                                         // If we exceed the max lines, push the tag back onto the
                                         // stack so that it will be added back correctly after
                                         // truncation
                                         tagStack.push(tagName);
+                                        break;
+                                    } else if(numChars > maxLength) {
                                         break;
                                     }
                                 }
@@ -207,7 +210,8 @@ function clipHtml(string, maxLength, options) {
                                    string.charCodeAt(endIndex - 1) === FORWARD_SLASH_CHAR_CODE) {
                             if (tagName === 'br') {
                                 numLines++;
-                                if (numLines > maxLines) {
+                                numChars += newlineWeight - 1;
+                                if (numLines > maxLines || numChars > maxLength) {
                                     break;
                                 }
                             } else if (tagName === 'img') {
@@ -251,6 +255,7 @@ function clipHtml(string, maxLength, options) {
         } else if (charCode === NEWLINE_CHAR_CODE) {
             if (!isUnbreakableContent) {
                 numChars++;
+                numChars += newlineWeight - 1;
                 if (numChars > maxLength) {
                     break;
                 }
@@ -374,7 +379,8 @@ function clipPlainText(string, maxLength, options) {
         const charCode = string.charCodeAt(i);
         if (charCode === NEWLINE_CHAR_CODE) {
             numLines++;
-            if (numLines > maxLines) {
+            numChars += newlineWeight - 1;
+            if (numLines > maxLines || numChars > maxLength) {
                 break;
             }
         } else if ((charCode & 0xfc00) === 0xd800) {
