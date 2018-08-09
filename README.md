@@ -63,6 +63,11 @@ provided the input is valid as well.
 The amount of characters to assume for images. This is used whenever an image is encountered, but
 also for embedded SVG and MathML content. The default is 2.
 
+### newlineWeight
+
+The amount of characters to assume for newlines. This is used whenever a newline is encountered. By
+default this is 1.
+
 ### indicator
 
 The string to insert to indicate the string was clipped. Default: `'…'`.
